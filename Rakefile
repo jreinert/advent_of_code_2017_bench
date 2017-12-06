@@ -32,7 +32,6 @@ File.open(PARTICIPANTS_FILE) do |f|
             day, part, result, usecs = line.split(/\s+/)
             day = Integer(day)
             part = Integer(part)
-            millis = Integer(usecs) / 1000.0
 
             benchmark_results[day] ||= {}
             benchmark_results[day][part] ||= {}
@@ -44,6 +43,7 @@ File.open(PARTICIPANTS_FILE) do |f|
               next
             end
 
+            millis = Integer(usecs) / 1000.0
             all_time_results[id] ||= []
             all_time_results[id] << millis
             benchmark_results[day][part][id] = millis
