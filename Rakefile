@@ -4,35 +4,14 @@ require 'fileutils'
 
 PARTICIPANTS_FILE = File.expand_path('../participants.yml', __FILE__)
 LEADER_BOARD_FILE = File.expand_path('../leader_board.md', __FILE__)
-DAYS = (1..25).map { |day| format('%02d', day) }
+EXPECTED_OUTPUT_FILE = File.expand_path('../expected_output.yml', __FILE__)
+INPUT_FILES = Dir[File.expand_path('../input/*/*', __FILE__)]
+EXPECTED_OUTPUT = File.open(EXPECTED_OUTPUT_FILE, &YAML.method(:safe_load))
+LOGGER = Logger.new(STDERR)
 
 participants = []
 benchmark_results = {}
 all_time_results = {}
-
-def input(day, part)
-  file = File.expand_path("../input/#{day}/#{part}", __FILE__)
-  File.read(file)
-end
-
-def expected_output(day, part)
-  file = File.expand_path("../expected_output/#{day}/#{part}", __FILE__)
-  File.read(file)
-end
-
-def benchmark(executable, part, input)
-  started = Time.now
-
-  result = IO.popen([executable, part.to_s], 'w+') do |program|
-    program.print(input)
-    program.close_write
-    program.read
-  end
-
-  [Time.now - started, result]
-end
-
-LOGGER = Logger.new(STDERR)
 
 # rubocop:disable BlockLength
 
@@ -48,28 +27,26 @@ File.open(PARTICIPANTS_FILE) do |f|
 
       desc 'run benchmarks for participant'
       task run_benchmarks: [:build] do
-        DAYS.each do |day|
-          benchmark_results[day] ||= {}
+        IO.popen(["#{base_path}/bin/benchmark", *INPUT_FILES]) do |process|
+          process.each do |line|
+            day, part, result, usecs = line.split(/\s+/)
+            day = Integer(day)
+            part = Integer(part)
+            millis = Integer(usecs) / 1000.0
 
-          executable = "#{base_path}/bin/#{day}"
-          next unless File.exist?(executable)
-
-          [1, 2].each do |part|
+            benchmark_results[day] ||= {}
             benchmark_results[day][part] ||= {}
-
-            time, output = benchmark(executable, part, input(day, part))
-            if output != expected_output(day, part)
+            if result != EXPECTED_OUTPUT[day - 1][part - 1].to_s
               LOGGER.warn(participant) do
                 "Day #{day} part #{part} output differs from expected output " \
                 '- Skipping'
               end
-
               next
             end
 
             all_time_results[id] ||= []
-            all_time_results[id] << time
-            benchmark_results[day][part][id] = time
+            all_time_results[id] << millis
+            benchmark_results[day][part][id] = millis
           end
         end
       end
@@ -111,8 +88,7 @@ task run_benchmarks: participants.map { |p| "#{p}:run_benchmarks" } do
 
         results_for_part.sort.each_with_index do |(id, result), index|
           rank = index + 1
-          millis = (result * 1000).round(1)
-          f.puts "#{rank}. #{id} (#{millis} ms)"
+          f.puts "#{rank}. #{id} (#{result.round(2)} ms)"
         end
 
         f.puts
