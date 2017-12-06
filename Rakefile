@@ -86,7 +86,8 @@ task run_benchmarks: participants.map { |p| "#{p}:run_benchmarks" } do
         f.puts "### Part #{part}"
         f.puts
 
-        results_for_part.sort.each_with_index do |(id, result), index|
+        sorted_results = results_for_part.sort_by { |_, result| result }
+        sorted_results.each_with_index do |(id, result), index|
           rank = index + 1
           f.puts "#{rank}. #{id} (#{result.round(2)} ms)"
         end
