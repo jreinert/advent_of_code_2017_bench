@@ -20,7 +20,7 @@ File.open(PARTICIPANTS_FILE) do |f|
     participants << participant
     repo = options['repo']
     language = options['lang']
-    id = "#{participant} [#{language}]"
+    id = "[#{participant}](#{repo}) [#{language}]"
 
     namespace participant do
       base_path = File.expand_path("../tmp/#{participant}", __FILE__)
