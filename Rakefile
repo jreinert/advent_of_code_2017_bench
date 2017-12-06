@@ -5,7 +5,7 @@ require 'fileutils'
 PARTICIPANTS_FILE = File.expand_path('../participants.yml', __FILE__)
 LEADER_BOARD_FILE = File.expand_path('../leader_board.md', __FILE__)
 EXPECTED_OUTPUT_FILE = File.expand_path('../expected_output.yml', __FILE__)
-INPUT_FILES = Dir[File.expand_path('../input/*/*', __FILE__)]
+INPUT_FILES = Dir[File.expand_path('../input/*/*', __FILE__)].sort
 EXPECTED_OUTPUT = File.open(EXPECTED_OUTPUT_FILE, &YAML.method(:safe_load))
 LOGGER = Logger.new(STDERR)
 
