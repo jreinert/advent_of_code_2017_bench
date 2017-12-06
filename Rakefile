@@ -104,8 +104,7 @@ task run_benchmarks: participants.map { |p| "#{p}:run_benchmarks" } do
 
     all_results.each_with_index do |(participant, results), index|
       rank = index + 1
-      days = results.size / 2
-      f.puts "#{rank}. #{participant} (#{days} days submitted)"
+      f.puts "#{rank}. #{participant} (#{results.size} parts submitted)"
     end
 
     f.puts

@@ -3,27 +3,27 @@
 
 ### Part 1
 
-1. [jokke](https://github.com/jreinert/advent_of_code_2017) [crystal] (29.29 ms)
+1. [jokke](https://github.com/jreinert/advent_of_code_2017) [crystal] (26.42 ms)
 
 ### Part 2
 
-1. [jokke](https://github.com/jreinert/advent_of_code_2017) [crystal] (33.2 ms)
+1. [jokke](https://github.com/jreinert/advent_of_code_2017) [crystal] (31.26 ms)
 
 ## Day 2
 
 ### Part 1
 
-1. [jokke](https://github.com/jreinert/advent_of_code_2017) [crystal] (0.07 ms)
+1. [jokke](https://github.com/jreinert/advent_of_code_2017) [crystal] (0.05 ms)
 
 ### Part 2
 
-1. [jokke](https://github.com/jreinert/advent_of_code_2017) [crystal] (0.13 ms)
+1. [jokke](https://github.com/jreinert/advent_of_code_2017) [crystal] (0.12 ms)
 
 ## Day 3
 
 ### Part 1
 
-1. [jokke](https://github.com/jreinert/advent_of_code_2017) [crystal] (6521.74 ms)
+1. [jokke](https://github.com/jreinert/advent_of_code_2017) [crystal] (6575.66 ms)
 
 ### Part 2
 
@@ -31,5 +31,5 @@
 
 ## All Time
 
-1. [jokke](https://github.com/jreinert/advent_of_code_2017) [crystal] (3 days submitted)
+1. [jokke](https://github.com/jreinert/advent_of_code_2017) [crystal] (6 parts submitted)
 
